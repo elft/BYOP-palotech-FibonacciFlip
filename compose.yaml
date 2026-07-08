@@ -1,0 +1,22 @@
+include:
+   - path: ./infra.yaml
+services:
+  app:
+    container_name: app
+    build:
+      dockerfile: app.dockerfile
+    ports:
+      - "${APP_PORT}:8000"
+      - "9229:9229"
+    command: tail -f /dev/null
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./node_modules:/app/node_modules
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+      - ./vite.config.ts:/app/vite.config.ts
+    tty: true
+    depends_on:
+      redis:
+        condition: service_healthy
