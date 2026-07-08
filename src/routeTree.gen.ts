@@ -10,33 +10,135 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
+import { Route as ApiRoomsRouteImport } from './routes/api/rooms'
+import { Route as ApiRoomsRoomIdRouteImport } from './routes/api/rooms/$roomId'
+import { Route as ApiRoomsRoomIdVotesRouteImport } from './routes/api/rooms/$roomId/votes'
+import { Route as ApiRoomsRoomIdRevealRouteImport } from './routes/api/rooms/$roomId/reveal'
+import { Route as ApiRoomsRoomIdResetRouteImport } from './routes/api/rooms/$roomId/reset'
+import { Route as ApiRoomsRoomIdJoinRouteImport } from './routes/api/rooms/$roomId/join'
+import { Route as ApiRoomsRoomIdEventsRouteImport } from './routes/api/rooms/$roomId/events'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoomsRoomIdRoute = RoomsRoomIdRouteImport.update({
+  id: '/rooms/$roomId',
+  path: '/rooms/$roomId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRoomsRoute = ApiRoomsRouteImport.update({
+  id: '/api/rooms',
+  path: '/api/rooms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRoomsRoomIdRoute = ApiRoomsRoomIdRouteImport.update({
+  id: '/$roomId',
+  path: '/$roomId',
+  getParentRoute: () => ApiRoomsRoute,
+} as any)
+const ApiRoomsRoomIdVotesRoute = ApiRoomsRoomIdVotesRouteImport.update({
+  id: '/votes',
+  path: '/votes',
+  getParentRoute: () => ApiRoomsRoomIdRoute,
+} as any)
+const ApiRoomsRoomIdRevealRoute = ApiRoomsRoomIdRevealRouteImport.update({
+  id: '/reveal',
+  path: '/reveal',
+  getParentRoute: () => ApiRoomsRoomIdRoute,
+} as any)
+const ApiRoomsRoomIdResetRoute = ApiRoomsRoomIdResetRouteImport.update({
+  id: '/reset',
+  path: '/reset',
+  getParentRoute: () => ApiRoomsRoomIdRoute,
+} as any)
+const ApiRoomsRoomIdJoinRoute = ApiRoomsRoomIdJoinRouteImport.update({
+  id: '/join',
+  path: '/join',
+  getParentRoute: () => ApiRoomsRoomIdRoute,
+} as any)
+const ApiRoomsRoomIdEventsRoute = ApiRoomsRoomIdEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => ApiRoomsRoomIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/rooms': typeof ApiRoomsRouteWithChildren
+  '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/api/rooms/$roomId': typeof ApiRoomsRoomIdRouteWithChildren
+  '/api/rooms/$roomId/events': typeof ApiRoomsRoomIdEventsRoute
+  '/api/rooms/$roomId/join': typeof ApiRoomsRoomIdJoinRoute
+  '/api/rooms/$roomId/reset': typeof ApiRoomsRoomIdResetRoute
+  '/api/rooms/$roomId/reveal': typeof ApiRoomsRoomIdRevealRoute
+  '/api/rooms/$roomId/votes': typeof ApiRoomsRoomIdVotesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/rooms': typeof ApiRoomsRouteWithChildren
+  '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/api/rooms/$roomId': typeof ApiRoomsRoomIdRouteWithChildren
+  '/api/rooms/$roomId/events': typeof ApiRoomsRoomIdEventsRoute
+  '/api/rooms/$roomId/join': typeof ApiRoomsRoomIdJoinRoute
+  '/api/rooms/$roomId/reset': typeof ApiRoomsRoomIdResetRoute
+  '/api/rooms/$roomId/reveal': typeof ApiRoomsRoomIdRevealRoute
+  '/api/rooms/$roomId/votes': typeof ApiRoomsRoomIdVotesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/rooms': typeof ApiRoomsRouteWithChildren
+  '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/api/rooms/$roomId': typeof ApiRoomsRoomIdRouteWithChildren
+  '/api/rooms/$roomId/events': typeof ApiRoomsRoomIdEventsRoute
+  '/api/rooms/$roomId/join': typeof ApiRoomsRoomIdJoinRoute
+  '/api/rooms/$roomId/reset': typeof ApiRoomsRoomIdResetRoute
+  '/api/rooms/$roomId/reveal': typeof ApiRoomsRoomIdRevealRoute
+  '/api/rooms/$roomId/votes': typeof ApiRoomsRoomIdVotesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/api/rooms'
+    | '/rooms/$roomId'
+    | '/api/rooms/$roomId'
+    | '/api/rooms/$roomId/events'
+    | '/api/rooms/$roomId/join'
+    | '/api/rooms/$roomId/reset'
+    | '/api/rooms/$roomId/reveal'
+    | '/api/rooms/$roomId/votes'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/api/rooms'
+    | '/rooms/$roomId'
+    | '/api/rooms/$roomId'
+    | '/api/rooms/$roomId/events'
+    | '/api/rooms/$roomId/join'
+    | '/api/rooms/$roomId/reset'
+    | '/api/rooms/$roomId/reveal'
+    | '/api/rooms/$roomId/votes'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/rooms'
+    | '/rooms/$roomId'
+    | '/api/rooms/$roomId'
+    | '/api/rooms/$roomId/events'
+    | '/api/rooms/$roomId/join'
+    | '/api/rooms/$roomId/reset'
+    | '/api/rooms/$roomId/reveal'
+    | '/api/rooms/$roomId/votes'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiRoomsRoute: typeof ApiRoomsRouteWithChildren
+  RoomsRoomIdRoute: typeof RoomsRoomIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +150,101 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rooms/$roomId': {
+      id: '/rooms/$roomId'
+      path: '/rooms/$roomId'
+      fullPath: '/rooms/$roomId'
+      preLoaderRoute: typeof RoomsRoomIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/rooms': {
+      id: '/api/rooms'
+      path: '/api/rooms'
+      fullPath: '/api/rooms'
+      preLoaderRoute: typeof ApiRoomsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/rooms/$roomId': {
+      id: '/api/rooms/$roomId'
+      path: '/$roomId'
+      fullPath: '/api/rooms/$roomId'
+      preLoaderRoute: typeof ApiRoomsRoomIdRouteImport
+      parentRoute: typeof ApiRoomsRoute
+    }
+    '/api/rooms/$roomId/votes': {
+      id: '/api/rooms/$roomId/votes'
+      path: '/votes'
+      fullPath: '/api/rooms/$roomId/votes'
+      preLoaderRoute: typeof ApiRoomsRoomIdVotesRouteImport
+      parentRoute: typeof ApiRoomsRoomIdRoute
+    }
+    '/api/rooms/$roomId/reveal': {
+      id: '/api/rooms/$roomId/reveal'
+      path: '/reveal'
+      fullPath: '/api/rooms/$roomId/reveal'
+      preLoaderRoute: typeof ApiRoomsRoomIdRevealRouteImport
+      parentRoute: typeof ApiRoomsRoomIdRoute
+    }
+    '/api/rooms/$roomId/reset': {
+      id: '/api/rooms/$roomId/reset'
+      path: '/reset'
+      fullPath: '/api/rooms/$roomId/reset'
+      preLoaderRoute: typeof ApiRoomsRoomIdResetRouteImport
+      parentRoute: typeof ApiRoomsRoomIdRoute
+    }
+    '/api/rooms/$roomId/join': {
+      id: '/api/rooms/$roomId/join'
+      path: '/join'
+      fullPath: '/api/rooms/$roomId/join'
+      preLoaderRoute: typeof ApiRoomsRoomIdJoinRouteImport
+      parentRoute: typeof ApiRoomsRoomIdRoute
+    }
+    '/api/rooms/$roomId/events': {
+      id: '/api/rooms/$roomId/events'
+      path: '/events'
+      fullPath: '/api/rooms/$roomId/events'
+      preLoaderRoute: typeof ApiRoomsRoomIdEventsRouteImport
+      parentRoute: typeof ApiRoomsRoomIdRoute
+    }
   }
 }
 
+interface ApiRoomsRoomIdRouteChildren {
+  ApiRoomsRoomIdEventsRoute: typeof ApiRoomsRoomIdEventsRoute
+  ApiRoomsRoomIdJoinRoute: typeof ApiRoomsRoomIdJoinRoute
+  ApiRoomsRoomIdResetRoute: typeof ApiRoomsRoomIdResetRoute
+  ApiRoomsRoomIdRevealRoute: typeof ApiRoomsRoomIdRevealRoute
+  ApiRoomsRoomIdVotesRoute: typeof ApiRoomsRoomIdVotesRoute
+}
+
+const ApiRoomsRoomIdRouteChildren: ApiRoomsRoomIdRouteChildren = {
+  ApiRoomsRoomIdEventsRoute: ApiRoomsRoomIdEventsRoute,
+  ApiRoomsRoomIdJoinRoute: ApiRoomsRoomIdJoinRoute,
+  ApiRoomsRoomIdResetRoute: ApiRoomsRoomIdResetRoute,
+  ApiRoomsRoomIdRevealRoute: ApiRoomsRoomIdRevealRoute,
+  ApiRoomsRoomIdVotesRoute: ApiRoomsRoomIdVotesRoute,
+}
+
+const ApiRoomsRoomIdRouteWithChildren = ApiRoomsRoomIdRoute._addFileChildren(
+  ApiRoomsRoomIdRouteChildren,
+)
+
+interface ApiRoomsRouteChildren {
+  ApiRoomsRoomIdRoute: typeof ApiRoomsRoomIdRouteWithChildren
+}
+
+const ApiRoomsRouteChildren: ApiRoomsRouteChildren = {
+  ApiRoomsRoomIdRoute: ApiRoomsRoomIdRouteWithChildren,
+}
+
+const ApiRoomsRouteWithChildren = ApiRoomsRoute._addFileChildren(
+  ApiRoomsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiRoomsRoute: ApiRoomsRouteWithChildren,
+  RoomsRoomIdRoute: RoomsRoomIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

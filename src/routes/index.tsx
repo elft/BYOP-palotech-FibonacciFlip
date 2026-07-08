@@ -1,14 +1,72 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import Alert from '@mui/material/Alert'
 import AddIcon from '@mui/icons-material/Add'
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 import { green, yellow } from '@mui/material/colors'
+import { roomApi } from '#/features/rooms/api/room-api'
+
 export const Route = createFileRoute('/')({ component: Home })
 
+function getRoomUserStorageKey(roomId: string) {
+  return `fibonacci-flip:${roomId}:userName`
+}
+
 function Home() {
+  const navigate = useNavigate()
+  const [username, setUsername] = useState('')
+  const [roomId, setRoomId] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  async function createRoom() {
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      const response = await roomApi.createRoom(username, roomId)
+      sessionStorage.setItem(getRoomUserStorageKey(roomId), response.currentUserName ?? username)
+
+      await navigate({
+        to: '/rooms/$roomId',
+        params: { roomId },
+      })
+    } catch {
+      setError('Could not create the room.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  async function joinRoom() {
+    if (!username || !roomId) {
+      setError('Enter a username and room id before joining.')
+      return
+    }
+
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      const response = await roomApi.joinRoom(username, roomId)
+      sessionStorage.setItem(getRoomUserStorageKey(roomId), response.currentUserName ?? username)
+
+      await navigate({
+        to: '/rooms/$roomId',
+        params: { roomId },
+      })
+    } catch {
+      setError('Could not join the room.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <Box
       sx={{
@@ -34,30 +92,50 @@ function Home() {
           Welcome Fibannoci Flipper
         </Typography>
 
-        <Stack direction="row" spacing={2} >
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<ArrowRightIcon sx={{ color: yellow[500] }}></ArrowRightIcon>}
-            onClick={() => console.log('Join Room Clicked')}
-            fullWidth
-          >
-            Join Room
-          </Button>
+        <Stack spacing={2}>
+          {error ? <Alert severity="error">{error}</Alert> : null}
 
-          <Button
-            variant="outlined"
-            color="secondary"
-            size="large"
-            startIcon={<AddIcon sx={{ color: green[500] }}></AddIcon>}
-            onClick={() => console.log('Create Room Clicked')}
+          <TextField
+            label="Username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value.trim())}
             fullWidth
-          >
-            Create Room
-          </Button>
+          />
+
+          <TextField
+            label="Room"
+            value={roomId}
+            onChange={(event) => setRoomId(event.target.value.trim())}
+            fullWidth
+          />
+
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<ArrowRightIcon sx={{ color: yellow[500] }} />}
+              onClick={() => void joinRoom()}
+              disabled={isSubmitting || !username || !roomId}
+              fullWidth
+            >
+              Join Room
+            </Button>
+
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="large"
+              startIcon={<AddIcon sx={{ color: green[500] }} />}
+              onClick={() => void createRoom()}
+              disabled={isSubmitting || !username || !roomId}
+              fullWidth
+            >
+              Create Room
+            </Button>
+          </Stack>
         </Stack>
       </Box>
     </Box>
-  );
+  )
 }

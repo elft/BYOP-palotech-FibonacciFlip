@@ -9,9 +9,6 @@ install: default
 dev: default
 	docker compose exec $(SERVICE_NAME) npm run dev
 
-ws: default
-	docker compose exec $(SERVICE_NAME) npm run ws
-
 test: default
 	docker compose exec $(SERVICE_NAME) npm test
 
