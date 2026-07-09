@@ -95,4 +95,11 @@ export const roomApi = {
       body: JSON.stringify({}),
     })
   },
+
+  leaveRoom(roomId: string, participantName: string) {
+    return requestJson<RoomMutationResponse>(`/api/rooms/${roomId}/leave`, {
+      method: 'POST',
+      body: JSON.stringify({ participantName }),
+    })
+  }
 }

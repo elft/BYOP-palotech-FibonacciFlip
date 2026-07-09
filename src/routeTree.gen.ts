@@ -16,6 +16,7 @@ import { Route as ApiRoomsRoomIdRouteImport } from './routes/api/rooms/$roomId'
 import { Route as ApiRoomsRoomIdVotesRouteImport } from './routes/api/rooms/$roomId/votes'
 import { Route as ApiRoomsRoomIdRevealRouteImport } from './routes/api/rooms/$roomId/reveal'
 import { Route as ApiRoomsRoomIdResetRouteImport } from './routes/api/rooms/$roomId/reset'
+import { Route as ApiRoomsRoomIdLeaveRouteImport } from './routes/api/rooms/$roomId/leave'
 import { Route as ApiRoomsRoomIdJoinRouteImport } from './routes/api/rooms/$roomId/join'
 import { Route as ApiRoomsRoomIdEventsRouteImport } from './routes/api/rooms/$roomId/events'
 
@@ -54,6 +55,11 @@ const ApiRoomsRoomIdResetRoute = ApiRoomsRoomIdResetRouteImport.update({
   path: '/reset',
   getParentRoute: () => ApiRoomsRoomIdRoute,
 } as any)
+const ApiRoomsRoomIdLeaveRoute = ApiRoomsRoomIdLeaveRouteImport.update({
+  id: '/leave',
+  path: '/leave',
+  getParentRoute: () => ApiRoomsRoomIdRoute,
+} as any)
 const ApiRoomsRoomIdJoinRoute = ApiRoomsRoomIdJoinRouteImport.update({
   id: '/join',
   path: '/join',
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/api/rooms/$roomId': typeof ApiRoomsRoomIdRouteWithChildren
   '/api/rooms/$roomId/events': typeof ApiRoomsRoomIdEventsRoute
   '/api/rooms/$roomId/join': typeof ApiRoomsRoomIdJoinRoute
+  '/api/rooms/$roomId/leave': typeof ApiRoomsRoomIdLeaveRoute
   '/api/rooms/$roomId/reset': typeof ApiRoomsRoomIdResetRoute
   '/api/rooms/$roomId/reveal': typeof ApiRoomsRoomIdRevealRoute
   '/api/rooms/$roomId/votes': typeof ApiRoomsRoomIdVotesRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/api/rooms/$roomId': typeof ApiRoomsRoomIdRouteWithChildren
   '/api/rooms/$roomId/events': typeof ApiRoomsRoomIdEventsRoute
   '/api/rooms/$roomId/join': typeof ApiRoomsRoomIdJoinRoute
+  '/api/rooms/$roomId/leave': typeof ApiRoomsRoomIdLeaveRoute
   '/api/rooms/$roomId/reset': typeof ApiRoomsRoomIdResetRoute
   '/api/rooms/$roomId/reveal': typeof ApiRoomsRoomIdRevealRoute
   '/api/rooms/$roomId/votes': typeof ApiRoomsRoomIdVotesRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/api/rooms/$roomId': typeof ApiRoomsRoomIdRouteWithChildren
   '/api/rooms/$roomId/events': typeof ApiRoomsRoomIdEventsRoute
   '/api/rooms/$roomId/join': typeof ApiRoomsRoomIdJoinRoute
+  '/api/rooms/$roomId/leave': typeof ApiRoomsRoomIdLeaveRoute
   '/api/rooms/$roomId/reset': typeof ApiRoomsRoomIdResetRoute
   '/api/rooms/$roomId/reveal': typeof ApiRoomsRoomIdRevealRoute
   '/api/rooms/$roomId/votes': typeof ApiRoomsRoomIdVotesRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/api/rooms/$roomId'
     | '/api/rooms/$roomId/events'
     | '/api/rooms/$roomId/join'
+    | '/api/rooms/$roomId/leave'
     | '/api/rooms/$roomId/reset'
     | '/api/rooms/$roomId/reveal'
     | '/api/rooms/$roomId/votes'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/api/rooms/$roomId'
     | '/api/rooms/$roomId/events'
     | '/api/rooms/$roomId/join'
+    | '/api/rooms/$roomId/leave'
     | '/api/rooms/$roomId/reset'
     | '/api/rooms/$roomId/reveal'
     | '/api/rooms/$roomId/votes'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/api/rooms/$roomId'
     | '/api/rooms/$roomId/events'
     | '/api/rooms/$roomId/join'
+    | '/api/rooms/$roomId/leave'
     | '/api/rooms/$roomId/reset'
     | '/api/rooms/$roomId/reveal'
     | '/api/rooms/$roomId/votes'
@@ -192,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRoomsRoomIdResetRouteImport
       parentRoute: typeof ApiRoomsRoomIdRoute
     }
+    '/api/rooms/$roomId/leave': {
+      id: '/api/rooms/$roomId/leave'
+      path: '/leave'
+      fullPath: '/api/rooms/$roomId/leave'
+      preLoaderRoute: typeof ApiRoomsRoomIdLeaveRouteImport
+      parentRoute: typeof ApiRoomsRoomIdRoute
+    }
     '/api/rooms/$roomId/join': {
       id: '/api/rooms/$roomId/join'
       path: '/join'
@@ -212,6 +231,7 @@ declare module '@tanstack/react-router' {
 interface ApiRoomsRoomIdRouteChildren {
   ApiRoomsRoomIdEventsRoute: typeof ApiRoomsRoomIdEventsRoute
   ApiRoomsRoomIdJoinRoute: typeof ApiRoomsRoomIdJoinRoute
+  ApiRoomsRoomIdLeaveRoute: typeof ApiRoomsRoomIdLeaveRoute
   ApiRoomsRoomIdResetRoute: typeof ApiRoomsRoomIdResetRoute
   ApiRoomsRoomIdRevealRoute: typeof ApiRoomsRoomIdRevealRoute
   ApiRoomsRoomIdVotesRoute: typeof ApiRoomsRoomIdVotesRoute
@@ -220,6 +240,7 @@ interface ApiRoomsRoomIdRouteChildren {
 const ApiRoomsRoomIdRouteChildren: ApiRoomsRoomIdRouteChildren = {
   ApiRoomsRoomIdEventsRoute: ApiRoomsRoomIdEventsRoute,
   ApiRoomsRoomIdJoinRoute: ApiRoomsRoomIdJoinRoute,
+  ApiRoomsRoomIdLeaveRoute: ApiRoomsRoomIdLeaveRoute,
   ApiRoomsRoomIdResetRoute: ApiRoomsRoomIdResetRoute,
   ApiRoomsRoomIdRevealRoute: ApiRoomsRoomIdRevealRoute,
   ApiRoomsRoomIdVotesRoute: ApiRoomsRoomIdVotesRoute,

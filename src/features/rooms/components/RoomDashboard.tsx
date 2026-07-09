@@ -11,6 +11,8 @@ import type { Room, VoteValue } from '../api/room-types'
 import { ParticipantList } from './ParticipantList'
 import { VoteSummary } from './VoteSummary'
 import { VotingCards } from './VotingCards'
+import { useNavigate } from '@tanstack/react-router'
+import { useBlocker } from '@tanstack/react-router'
 
 type RoomDashboardProps = {
   roomId: string
@@ -23,6 +25,7 @@ function getRoomUserStorageKey(roomId: string) {
 }
 
 export function RoomDashboard({ roomId }: RoomDashboardProps) {
+  const navigate = useNavigate();
   const [room, setRoom] = useState<Room | null>(null)
   const [voteOptions, setVoteOptions] = useState<Array<VoteValue>>([])
   const [currentUserName, setCurrentUserName] = useState('')
@@ -59,6 +62,18 @@ export function RoomDashboard({ roomId }: RoomDashboardProps) {
       isMounted = false
     }
   }, [roomId])
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      navigator.sendBeacon('/api/rooms/' + roomId + '/leave', JSON.stringify({ participantName: currentUserName }));
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [currentUserName, roomId]);
 
   useEffect(() => {
     return subscribeToRoomEvents(roomId, (event) => {
@@ -135,6 +150,13 @@ export function RoomDashboard({ roomId }: RoomDashboardProps) {
     })
   }
 
+  function handleLeave() {
+    void runAction('reset', async () => {
+      await roomApi.leaveRoom(roomId, currentUserName)
+      navigate({ to: '/' })
+    });
+  }
+
   if (isLoading) {
     return (
       <Box sx={{ display: 'grid', minHeight: '60vh', placeItems: 'center' }}>
@@ -205,6 +227,7 @@ export function RoomDashboard({ roomId }: RoomDashboardProps) {
             isBusy={pendingAction === 'reveal' || pendingAction === 'reset'}
             onReveal={handleReveal}
             onReset={handleReset}
+            onLeave={handleLeave}
           />
         </Box>
       </Stack>

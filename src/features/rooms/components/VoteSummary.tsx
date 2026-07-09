@@ -11,9 +11,10 @@ type VoteSummaryProps = {
   isBusy: boolean
   onReveal: () => void
   onReset: () => void
+  onLeave: () => void
 }
 
-export function VoteSummary({ summary, revealed, isBusy, onReveal, onReset }: VoteSummaryProps) {
+export function VoteSummary({ summary, revealed, isBusy, onReveal, onReset, onLeave }: VoteSummaryProps) {
   const progress = summary.eligibleVoters > 0 ? (summary.votesCast / summary.eligibleVoters) * 100 : 0
 
   return (
@@ -55,6 +56,9 @@ export function VoteSummary({ summary, revealed, isBusy, onReveal, onReset }: Vo
           </Button>
           <Button variant="outlined" disabled={isBusy} onClick={onReset}>
             Reset
+          </Button>
+          <Button color="error" variant="outlined" onClick={onLeave}>
+            Leave Room
           </Button>
         </Stack>
       </Stack>
