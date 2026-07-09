@@ -1,18 +1,15 @@
 import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
-
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-
 import viteReact from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
 
 const config = defineConfig({
   server: {
     host: '0.0.0.0',
-    port: 8000,
+    port: process.env.PORT ? parseInt(process.env.PORT) : 8000,
   },
   resolve: { tsconfigPaths: true },
-  plugins: [devtools(), tailwindcss(), tanstackStart(), viteReact()],
+  plugins: [devtools(), tanstackStart(), viteReact()],
 })
 
 export default config

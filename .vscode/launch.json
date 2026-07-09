@@ -10,7 +10,35 @@
             "localRoot": "${workspaceFolder}",
             "remoteRoot": "/app",
             "skipFiles": [
-                "<node_internals>/**"
+                "<node_internals>/**",
+                "node_modules/**"
+            ]
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch TanStack App",
+            "url": "http://localhost:8000",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                // Strips out the virtual tsr-split query parameters for local mapping
+                "webpack:///./src/*": "${workspaceFolder}/src/*",
+                "*\\?tsr-split*": "${workspaceFolder}/*",
+                "*?tsr-split*": "${workspaceFolder}/*"
+            },
+            "resolveSourceMapLocations": [
+                "${workspaceFolder}/**",
+                "!**/node_modules/**"
+            ]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch TanStack App and Attach to Vite Node Process",
+            "configurations": [
+                "Launch TanStack App",
+                "Attach to Vite Node Process"
             ]
         }
     ]

@@ -1,7 +1,7 @@
 import { HeadContent, Scripts, createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import { MuiThemeProvider } from '#/components/theme-provider'
+import { MuiThemeProvider } from '@/theme-provider'
 
 export const Route = createRootRoute({
   head: () => ({
