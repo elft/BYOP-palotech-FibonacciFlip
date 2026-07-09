@@ -6,6 +6,7 @@ services:
     ports:
       - "${APP_PORT}:8000"
       - "9229:9229"
+      - "9228:9228"
     env_file:
       - .env
     command: tail -f /dev/null

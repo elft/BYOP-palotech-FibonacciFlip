@@ -10,6 +10,7 @@
     "generate-routes": "tsr generate",
     "build": "vite build",
     "preview": "vite preview",
+    "test:debug": "vitest --inspect-brk=0.0.0.0:9228 --no-file-parallelism run",
     "test": "vitest run"
   },
   "dependencies": {
